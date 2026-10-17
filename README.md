@@ -1,2 +1,2 @@
 # DeepLung
-Detection and Classification of Lung Cancer using Convolutional Neural Networks
+Detection and Classification of Lung Cancer using Deep Learning
