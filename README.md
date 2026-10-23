@@ -2,7 +2,7 @@
 
 A project proposal for a Convolutional Neural Network (CNN) decision-support system to classify chest CT slices as **Normal**, **Benign** or **Malignant**, explain predictions with **Grad-CAM** heatmaps, and present results through a secure web interface for medical professionals.
 
-> **Project status:** The preprocessing, inferred adjacent-slice grouping, split-manifest generation, and training-only augmentation pipeline are implemented. Model training, evaluation, and the web application remain planned; this repository does not yet contain trained models.
+> **Project status:** Proposal stage. This repository currently contains the proposal, project guidelines, and dataset images. It does not contain training or application code, a trained model, or runnable setup commands.
 
 > **Medical disclaimer:** This is an academic research prototype. It is **not** a certified medical device and must not be used for real clinical diagnosis or treatment decisions.
 
@@ -14,7 +14,6 @@ A project proposal for a Convolutional Neural Network (CNN) decision-support sys
 - [Aim and Objectives](#aim-and-objectives)
 - [Planned Features](#planned-features)
 - [Dataset](#dataset)
-- [Implemented Data Pipeline](#implemented-data-pipeline)
 - [Planned Methodology](#planned-methodology)
 - [Proposed System Architecture](#proposed-system-architecture)
 - [Proposed Tech Stack](#proposed-tech-stack)
@@ -72,20 +71,6 @@ The slices come from 110 patient cases (40 malignant, 15 benign, 55 normal). The
 The images are included in this repository under `Dataset/The IQ-OTHNCCD lung cancer dataset/`. The benign folder is spelled `Bengin cases` in the supplied dataset. The dataset description file reports 1,190 images, while the proposal and files currently present indicate 1,097; the table above counts the files in this repository. Verify the source data and labels before training or reporting results.
 
 The proposal cites the [IQ-OTH/NCCD dataset on Mendeley Data](https://doi.org/10.17632/bhmdr45bh2.2). Use and redistribute the images only in accordance with the dataset's own terms; the repository's MIT license does not apply to the dataset.
-
-## Implemented Data Pipeline
-
-The pipeline in [`src/data_pipeline.py`](src/data_pipeline.py) reads the existing class folders, preprocesses images to 224 x 224 grayscale with three replicated channels, and writes a deterministic 70/15/15 train/validation/test manifest. It augments training images only with rotations up to 10 degrees, translations up to 10%, and zoom from 0.9 to 1.1. Baseline inputs are scaled to [0, 1]; ResNet50 inputs use the Keras-compatible Caffe preprocessing convention.
-
-Because this dataset has no patient identifiers, the split uses inferred groups: numbered neighbors within each class folder are linked when the median Pearson correlation of their 32 x 32 downsampled image patches is at least 0.6. Linked runs stay in one split. This reduces adjacent-slice leakage but cannot guarantee true patient-level separation. Group sizes can also make the resulting image proportions differ from exactly 70/15/15. See [`docs/data-pipeline.md`](docs/data-pipeline.md) for design details and limitations.
-
-Install the pipeline dependencies, generate the split manifest, and run its tests:
-
-```powershell
-python -m pip install -r requirements.txt
-python -m src.data_pipeline --output artifacts/splits.csv
-python -m pytest -q
-```
 
 ## Planned Methodology
 
@@ -148,7 +133,7 @@ The system has four layers:
 
 ## Running the Project
 
-The data-pipeline command above is currently runnable. CNN training and inference, Grad-CAM, and the web application are not implemented yet.
+There are no training scripts or application entry points in the repository yet, so it cannot currently be installed or run. Setup instructions will be added with the implementation.
 
 ## Planned Evaluation
 
@@ -175,14 +160,14 @@ The proposal plans to evaluate the selected models on a held-out test set using:
 
 ### Work Plan
 
-| Period | Planned work |
-|---|---|
-| 14–25 October 2026 | Write up dataset exploration; implement preprocessing, patient-level splitting with adjacent-slice checks, and augmentation. |
-| 26 October–15 November 2026 | Train the baseline CNN and compare class weighting and denoising using validation results. Freeze baseline selection by 15 November. |
-| 16 November 2026–end of exams | Reduce workload for exams and coursework. Document completed data and baseline work, continue reading, and design prototype screens; do not run new experiments during this period. |
-| After exams–10 December 2026 | Train ResNet50 in frozen-base and fine-tuning stages. Select the best model using validation results by 10 December. |
-| 11 December 2026–5 January 2027 | Generate and review Grad-CAM heatmaps, perform PCA/t-SNE analysis, run the single final test-set evaluation with bootstrap confidence intervals, and complete error analysis. Begin connecting the prototype to the selected model around 20 December. |
-| 6–15 January 2027 | Complete the pipeline report, polish the prototype, review it with the supervisor, and address remaining gaps. Reserve this period as schedule buffer. |
+| Period | Focus | Deliverable |
+|---|---|---|
+| 14 to 25 Oct | Exploratory Data Analysis (EDA), preprocessing pipeline, patient-level split, augmentation | Documented EDA and data pipeline |
+| 26 Oct to 15 Nov | Baseline CNN training, class-weighting and denoising comparisons on the validation set | Baseline selection frozen by 15 Nov |
+| 16 Nov to end of exams | Reduced workload (exams and other coursework). Documentation of completed work (data and baseline sections), reading, designing the prototype screens. No new experiments | Data and baseline report sections, prototype screen designs |
+| After exams to 10 Dec | ResNet50 stage 1 (frozen base) and stage 2 (fine-tuning) | Best model selected on validation results by 10 Dec |
+| 11 Dec to 5 Jan | Grad-CAM, PCA/t-SNE, single final test-set evaluation, bootstrap CIs, error analysis. From about 20 Dec, connect the prototype interface to the selected model | Final evaluation results, Grad-CAM heatmaps, working prototype |
+| 6 to 15 Jan | Finish the pipeline report, polish the prototype, review with supervisor, fix gaps | Complete report and prototype. This period is also the buffer if any stage runs late. |
 
 ## Results
 
