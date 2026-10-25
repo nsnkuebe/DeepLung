@@ -1,7 +1,6 @@
 # DeepLung: Detection and Classification of Lung Cancer using Deep Learning
 
-A project proposal for a Convolutional Neural Network (CNN) decision-support system to classify chest CT slices as **Normal**, **Benign** or **Malignant**, explain predictions with **Grad-CAM** heatmaps, and present results through a secure web interface for medical professionals.
-
+A project proposal for a developing and evaluating deep learning models for classifying lung CT scans as Normal, Benign or Malignant using the IQ-OTH/NCCD dataset, and to deploy the best-performing model in a web-based application for use by medical professionals.
 > **Project status:** Proposal stage. This repository currently contains the proposal, project guidelines, and dataset images. It does not contain training or application code, a trained model, or runnable setup commands.
 
 > **Medical disclaimer:** This is an academic research prototype. It is **not** a certified medical device and must not be used for real clinical diagnosis or treatment decisions.
